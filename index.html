@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta
-  name="description"
-  content="Batch 28 — small-batch brownies and mini chocolate chips, available for weekly pre-order and self-collection."
+name="description"
+content="Batch 28 — small-batch brownies and mini chocolate chips, available for weekly pre-order and self-collection."
 >
 
 <title>Batch 28 | Small Batch Treats</title>
 
 <style>
+
 :root {
   --cream: #fff8ed;
   --paper: #fffdf8;
@@ -86,6 +87,10 @@ a {
   text-align: center;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 header {
   position: sticky;
   top: 0;
@@ -113,6 +118,12 @@ nav {
   color: var(--caramel);
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
 .nav-links {
   display: flex;
   gap: 26px;
@@ -138,6 +149,42 @@ nav {
 .cart-button:hover {
   background: var(--caramel);
 }
+
+/* HAMBURGER */
+
+.hamburger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--brown);
+  color: white;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+.mobile-menu {
+  display: none;
+  padding: 15px 0 20px;
+  border-top: 1px solid var(--line);
+  background: var(--cream);
+}
+
+.mobile-menu.open {
+  display: block;
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 12px 0;
+  font-weight: 800;
+  border-bottom: 1px solid var(--line);
+}
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
   position: relative;
@@ -176,7 +223,7 @@ nav {
   gap: 70px;
 }
 
-h1,
+.hero h1,
 h2,
 h3 {
   font-family: Georgia, "Times New Roman", serif;
@@ -301,6 +348,10 @@ h3 {
   transform: rotate(-4deg);
 }
 
+/* =========================
+   SECTIONS
+========================= */
+
 .section {
   padding: 85px 0;
 }
@@ -320,6 +371,10 @@ h3 {
 .section-heading p {
   color: var(--muted);
 }
+
+/* =========================
+   PRODUCTS
+========================= */
 
 .products {
   background: var(--paper);
@@ -351,6 +406,10 @@ h3 {
 
 .product-image.brownies {
   background: #f3c8c3;
+}
+
+.product-image.cookies {
+  background: #ead8bf;
 }
 
 .bottle {
@@ -391,10 +450,6 @@ h3 {
     #e8b36f;
 }
 
-.bottle.big {
-  transform: scale(1.08);
-}
-
 .brownie-stack {
   position: relative;
   width: 180px;
@@ -431,6 +486,51 @@ h3 {
   transform: rotate(12deg);
 }
 
+/* COOKIE COMING SOON ART */
+
+.cookie-stack {
+  position: relative;
+  width: 190px;
+  height: 150px;
+}
+
+.cookie {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 25% 25%, #5b321f 0 5%, transparent 6%),
+    radial-gradient(circle at 70% 30%, #5b321f 0 5%, transparent 6%),
+    radial-gradient(circle at 45% 65%, #5b321f 0 5%, transparent 6%),
+    radial-gradient(circle at 75% 75%, #5b321f 0 5%, transparent 6%),
+    #c98b52;
+  box-shadow: 0 15px 20px rgba(60,36,23,0.20);
+}
+
+.cookie-one {
+  left: 15px;
+  bottom: 5px;
+  transform: rotate(-12deg);
+}
+
+.cookie-two {
+  right: 10px;
+  top: 10px;
+  transform: rotate(8deg);
+}
+
+.coming-soon-badge {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: white;
+  color: var(--caramel);
+  font-weight: 900;
+  box-shadow: 0 8px 20px rgba(60,36,23,0.12);
+}
+
+/* PRODUCT CONTENT */
+
 .product-content {
   padding: 25px;
 }
@@ -447,40 +547,65 @@ h3 {
   font-size: 0.92rem;
 }
 
-.variants {
-  display: grid;
-  gap: 9px;
+/* SINGLE PRODUCT */
+
+.single-product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--cream);
 }
 
-.variant-row {
+.single-price {
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+/* BROWNIE SELECTOR */
+
+.selector-box {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--cream);
+}
+
+.selector-label {
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.product-select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(60,36,23,0.16);
+  border-radius: 12px;
+  background: white;
+  color: var(--brown);
+  outline: none;
+  cursor: pointer;
+}
+
+.selector-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 11px 12px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--cream);
 }
 
-.variant-info strong {
-  display: block;
-  font-size: 0.93rem;
-}
-
-.variant-info span {
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-
-.variant-price {
+.selector-price {
+  font-size: 1.15rem;
   font-weight: 900;
-  white-space: nowrap;
 }
 
 .add-button {
-  margin-left: auto;
-  padding: 8px 13px;
+  padding: 9px 15px;
   border: 0;
   border-radius: 999px;
   background: var(--brown);
@@ -494,60 +619,9 @@ h3 {
   background: var(--caramel);
 }
 
-/* NEW DROPDOWN PRICING */
-
-.price-selector {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.price-selector label {
-  font-size: 0.82rem;
-  font-weight: 800;
-}
-
-.product-select {
-  flex: 1;
-  min-width: 0;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--cream);
-  color: var(--brown);
-  font-weight: 700;
-  outline: none;
-  cursor: pointer;
-}
-
-.product-select:focus {
-  border-color: var(--caramel);
-}
-
-.selected-price-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.selected-price {
-  font-size: 1.15rem;
-  font-weight: 900;
-}
-
-.from-price {
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.selected-option {
-  color: var(--muted);
-  font-size: 0.82rem;
-}
+/* =========================
+   PREORDER
+========================= */
 
 .preorder {
   background: var(--brown);
@@ -583,6 +657,10 @@ h3 {
   margin-bottom: 8px;
   color: var(--peach);
 }
+
+/* =========================
+   CART
+========================= */
 
 .cart-drawer {
   position: fixed;
@@ -676,6 +754,16 @@ h3 {
   font-weight: 900;
 }
 
+.empty-cart {
+  padding: 30px 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* =========================
+   CHECKOUT
+========================= */
+
 .checkout {
   display: none;
   padding: 28px 0 0;
@@ -758,6 +846,10 @@ h3 {
   background: #fff3e6;
 }
 
+/* =========================
+   PAYNOW
+========================= */
+
 .paynow {
   display: none;
   margin-top: 25px;
@@ -804,6 +896,10 @@ h3 {
   font-size: 0.84rem;
 }
 
+/* =========================
+   CONFIRMATION
+========================= */
+
 .confirmation {
   display: none;
   padding: 35px 0;
@@ -847,6 +943,32 @@ h3 {
   font-weight: 700;
 }
 
+/* =========================
+   COLLECTION
+========================= */
+
+.collection-card {
+  padding: 20px;
+  margin-bottom: 12px;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 8px 25px rgba(60,36,23,.07);
+}
+
+.collection-card strong {
+  display: block;
+}
+
+.collection-card div {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
 .toast {
   position: fixed;
   right: 20px;
@@ -870,11 +992,9 @@ h3 {
   transform: translateY(0);
 }
 
-.empty-cart {
-  padding: 30px 0;
-  color: var(--muted);
-  text-align: center;
-}
+/* =========================
+   FOOTER
+========================= */
 
 footer {
   padding: 55px 0 30px;
@@ -905,9 +1025,18 @@ footer p {
   display: none !important;
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media (max-width: 800px) {
+
   .nav-links {
     display: none;
+  }
+
+  .hamburger {
+    display: block;
   }
 
   .hero-grid,
@@ -935,6 +1064,7 @@ footer p {
 }
 
 @media (max-width: 520px) {
+
   .container {
     width: min(100% - 28px, 1120px);
   }
@@ -971,30 +1101,51 @@ footer p {
     padding: 22px;
   }
 
-  .price-selector {
+  .single-product {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .product-select {
+  .single-product .add-button {
+    width: 100%;
+  }
+
+  .selector-bottom {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .selector-bottom .add-button {
     width: 100%;
   }
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="announcement" id="announcement">
+<!-- =========================
+     ANNOUNCEMENT
+========================= -->
+
+<div class="announcement">
   Pre-orders close every Thursday at 11:59 PM for that Sunday's collection.
 </div>
 
-<header>
-  <nav class="container">
+<!-- =========================
+     HEADER
+========================= -->
 
-    <a href="#home" class="logo">
-      Batch <span>28</span>
-    </a>
+<header>
+
+<nav class="container">
+
+  <a href="#home" class="logo">
+    Batch <span>28</span>
+  </a>
+
+  <div class="nav-right">
 
     <ul class="nav-links">
       <li><a href="#menu">Menu</a></li>
@@ -1002,399 +1153,512 @@ footer p {
       <li><a href="#collection">Collection</a></li>
     </ul>
 
-    <button class="cart-button" type="button" onclick="openCart()">
+    <button
+      class="hamburger"
+      type="button"
+      onclick="toggleMobileMenu()"
+      aria-label="Open menu"
+    >
+      ☰
+    </button>
+
+    <button
+      class="cart-button"
+      type="button"
+      onclick="openCart()"
+    >
       Cart (<span id="cartCount">0</span>)
     </button>
 
-  </nav>
+  </div>
+
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+
+  <div class="container">
+
+    <a href="#home" onclick="closeMobileMenu()">Home</a>
+    <a href="#menu" onclick="closeMobileMenu()">Menu</a>
+    <a href="#how-it-works" onclick="closeMobileMenu()">How it works</a>
+    <a href="#collection" onclick="closeMobileMenu()">Collection</a>
+
+  </div>
+
+</div>
+
 </header>
+
 
 <main>
 
-<!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero" id="home">
 
-  <div class="container hero-grid">
+<div class="container hero-grid">
 
-    <div class="hero-copy">
+  <div class="hero-copy">
 
-      <span class="eyebrow">
-        Small batch • Pre-order only
-      </span>
+    <span class="eyebrow">
+      Small batch • Pre-order only
+    </span>
 
-      <h1>
-        Made in batches.
-        <span>Made to crave.</span>
-      </h1>
+    <h1>
+      Made in batches.
+      <span>Made to crave.</span>
+    </h1>
 
-      <p>
-        Fudgy brownies and tiny chocolatey treats, made fresh in small
-        batches for your Sunday collection.
-      </p>
+    <p>
+      Fudgy brownies and tiny chocolatey treats, made fresh
+      in small batches for your Sunday collection.
+    </p>
 
-      <div class="hero-buttons">
+    <div class="hero-buttons">
 
-        <a class="button" href="#menu">
-          Shop the menu
-        </a>
+      <a class="button" href="#menu">
+        Shop the menu
+      </a>
 
-        <a class="button button-secondary" href="#how-it-works">
-          How it works
-        </a>
-
-      </div>
-
-    </div>
-
-    <div class="hero-art" aria-label="Brownie illustration">
-
-      <div class="brownie-art"></div>
-
-      <div class="hero-chip chip-one"></div>
-
-      <div class="hero-chip chip-two"></div>
-
-      <div class="hero-note">
-        Baked fresh for your collection 🍫
-      </div>
+      <a
+        class="button button-secondary"
+        href="#how-it-works"
+      >
+        How it works
+      </a>
 
     </div>
 
   </div>
 
+
+  <div
+    class="hero-art"
+    aria-label="Brownie illustration"
+  >
+
+    <div class="brownie-art"></div>
+
+    <div class="hero-chip chip-one"></div>
+
+    <div class="hero-chip chip-two"></div>
+
+    <div class="hero-note">
+      Baked fresh for your collection 🍫
+    </div>
+
+  </div>
+
+</div>
+
 </section>
 
 
-<!-- MENU -->
+<!-- =========================
+     MENU
+========================= -->
 
-<section class="section products" id="menu">
+<section
+  class="section products"
+  id="menu"
+>
 
-  <div class="container">
+<div class="container">
 
-    <div class="section-heading">
+  <div class="section-heading">
 
-      <span class="eyebrow">
-        The menu
-      </span>
+    <span class="eyebrow">
+      The menu
+    </span>
 
-      <h2>
-        Pick your batch.
-      </h2>
+    <h2>
+      Pick your batch.
+    </h2>
 
-      <p>
-        Everything is made in small batches and available for pre-order.
-      </p>
+    <p>
+      Everything is made in small batches and available for
+      pre-order.
+    </p>
 
-    </div>
-
-
-    <div class="product-grid">
+  </div>
 
 
-      <!-- CHOCOLATE CHIPS -->
+  <div class="product-grid">
 
-      <article class="product-card">
 
-        <div class="product-image chips">
+    <!-- =========================
+         MINI CHOCOLATE CHIPS
+    ========================= -->
 
-          <div class="bottle">
-            <div class="chips-inside"></div>
-          </div>
+    <article class="product-card">
+
+      <div class="product-image chips">
+
+        <div class="bottle">
+
+          <div class="chips-inside"></div>
 
         </div>
 
-        <div class="product-content">
-
-          <h3>
-            Mini Chocolate Chips
-          </h3>
-
-          <p>
-            Tiny chocolate chips packed into cute little bottles —
-            perfect for snacking, baking or adding a little chocolate
-            to everything.
-          </p>
+      </div>
 
 
-          <!-- CHIPS DROPDOWN -->
+      <div class="product-content">
 
-          <div class="price-selector">
+        <h3>
+          Mini Chocolate Chips
+        </h3>
 
-            <label for="chipSelect">
-              Choose:
-            </label>
+        <p>
+          Tiny chocolate chips packed into a cute little
+          container — perfect for snacking, baking or adding
+          a little chocolate to everything.
+        </p>
 
-            <select
-              id="chipSelect"
-              class="product-select"
-              onchange="updateChipPrice()"
-            >
 
-              <option value="CHIP-S">
-                Small Bottle — 15–16 pcs
-              </option>
+        <!-- ONE SIZE ONLY -->
+        <div class="single-product">
 
-              <option value="CHIP-B">
-                Big Bottle — 26 pcs
-              </option>
+          <div>
 
-            </select>
+            <strong>
+              One Size
+            </strong>
+
+            <div class="single-price">
+              $12.80
+            </div>
 
           </div>
 
 
-          <div class="selected-price-row">
+          <button
+            class="add-button"
+            type="button"
+            onclick="addToCart(
+              'CHIP-ONE',
+              'Mini Chocolate Chips',
+              12.80
+            )"
+          >
+            Add to Cart
+          </button>
 
-            <div>
+        </div>
 
-              <div
-                class="selected-option"
-                id="chipSelectedOption"
-              >
-                Small Bottle
-              </div>
+      </div>
 
-              <div
-                class="selected-price"
-                id="chipPrice"
-              >
-                $7.90
-              </div>
+    </article>
 
-            </div>
 
-            <span class="from-price">
-              From $7.90
+
+    <!-- =========================
+         BROWNIES
+    ========================= -->
+
+    <article class="product-card">
+
+      <div class="product-image brownies">
+
+        <div class="brownie-stack">
+
+          <div class="brownie-piece piece-one"></div>
+
+          <div class="brownie-piece piece-two"></div>
+
+          <div class="brownie-piece piece-three"></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="product-content">
+
+        <h3>
+          Fudgy Brownies
+        </h3>
+
+        <p>
+          Rich, chocolatey and fudgy. Choose the box size
+          that suits your craving.
+        </p>
+
+
+        <div class="selector-box">
+
+          <label
+            class="selector-label"
+            for="brownieSelector"
+          >
+            Choose your size
+          </label>
+
+
+          <select
+            id="brownieSelector"
+            class="product-select"
+            onchange="updateBrowniePrice()"
+          >
+
+            <option
+              value="BR-6"
+              data-name="Fudgy Brownies — 6 pcs"
+              data-price="10.80"
+            >
+              6 pcs — $10.80
+            </option>
+
+            <option
+              value="BR-9"
+              data-name="Fudgy Brownies — 9 pcs"
+              data-price="14.80"
+            >
+              9 pcs — $14.80
+            </option>
+
+            <option
+              value="BR-12"
+              data-name="Fudgy Brownies — 12 pcs"
+              data-price="18.80"
+            >
+              12 pcs — $18.80
+            </option>
+
+            <option
+              value="BR-15"
+              data-name="Fudgy Brownies — 15 pcs"
+              data-price="22.80"
+            >
+              15 pcs — $22.80
+            </option>
+
+            <option
+              value="BR-18"
+              data-name="Fudgy Brownies — 18 pcs"
+              data-price="26.80"
+            >
+              18 pcs — $26.80
+            </option>
+
+            <option
+              value="BR-55"
+              data-name="Fudgy Brownies — 5 × 5 Slab"
+              data-price="28.80"
+            >
+              5 × 5" slab — $28.80
+            </option>
+
+          </select>
+
+
+          <div class="selector-bottom">
+
+            <span
+              class="selector-price"
+              id="browniePrice"
+            >
+              From $10.80
             </span>
+
 
             <button
               class="add-button"
               type="button"
-              onclick="addSelectedChipToCart()"
+              onclick="addSelectedBrownie()"
             >
-              Add
+              Add to Cart
             </button>
 
           </div>
 
         </div>
 
-      </article>
+      </div>
+
+    </article>
 
 
-      <!-- BROWNIES -->
 
-      <article class="product-card">
+    <!-- =========================
+         COOKIES — COMING SOON
+    ========================= -->
 
-        <div class="product-image brownies">
+    <article class="product-card">
 
-          <div class="brownie-stack">
+      <div class="product-image cookies">
 
-            <div class="brownie-piece piece-one"></div>
+        <div class="cookie-stack">
 
-            <div class="brownie-piece piece-two"></div>
+          <div class="cookie cookie-one"></div>
 
-            <div class="brownie-piece piece-three"></div>
-
-          </div>
-
-        </div>
-
-        <div class="product-content">
-
-          <h3>
-            Fudgy Brownies
-          </h3>
-
-          <p>
-            Rich, chocolatey and fudgy. Choose the box size that suits
-            your craving.
-          </p>
-
-
-          <!-- BROWNIE DROPDOWN -->
-
-          <div class="price-selector">
-
-            <label for="brownieSelect">
-              Choose:
-            </label>
-
-            <select
-              id="brownieSelect"
-              class="product-select"
-              onchange="updateBrowniePrice()"
-            >
-
-              <option value="BR-6">
-                6 pcs
-              </option>
-
-              <option value="BR-9">
-                9 pcs
-              </option>
-
-              <option value="BR-12">
-                12 pcs
-              </option>
-
-              <option value="BR-15">
-                15 pcs
-              </option>
-
-              <option value="BR-18">
-                18 pcs
-              </option>
-
-              <option value="BR-55">
-                5 × 5" Slab — 25 pieces
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div class="selected-price-row">
-
-            <div>
-
-              <div
-                class="selected-option"
-                id="brownieSelectedOption"
-              >
-                6 pcs
-              </div>
-
-              <div
-                class="selected-price"
-                id="browniePrice"
-              >
-                $10.90
-              </div>
-
-            </div>
-
-            <span class="from-price">
-              From $10.90
-            </span>
-
-            <button
-              class="add-button"
-              type="button"
-              onclick="addSelectedBrownieToCart()"
-            >
-              Add
-            </button>
-
-          </div>
+          <div class="cookie cookie-two"></div>
 
         </div>
 
-      </article>
+        <div class="coming-soon-badge">
+          Coming Soon 🍪
+        </div>
 
-    </div>
+      </div>
+
+
+      <div class="product-content">
+
+        <h3>
+          Chewy Cookies
+        </h3>
+
+        <p>
+          We're still working on the perfect chewy cookie
+          recipe. Stay tuned!
+        </p>
+
+        <!-- NO PRICE -->
+        <!-- NO DROPDOWN -->
+        <!-- NO ADD TO CART -->
+
+        <div
+          style="
+            padding:14px;
+            border-radius:15px;
+            background:var(--cream);
+            text-align:center;
+            font-weight:800;
+            color:var(--caramel);
+          "
+        >
+          🍪 Coming Soon
+        </div>
+
+      </div>
+
+    </article>
+
 
   </div>
+
+</div>
 
 </section>
 
 
-<!-- HOW IT WORKS -->
+<!-- =========================
+     PRE-ORDER / HOW IT WORKS
+========================= -->
 
-<section class="section preorder" id="how-it-works">
+<section
+  class="section preorder"
+  id="how-it-works"
+>
 
-  <div class="container preorder-box">
+<div class="container preorder-box">
 
-    <div>
+  <div>
 
-      <span class="eyebrow">
-        How Batch 28 works
-      </span>
+    <span class="eyebrow">
+      How Batch 28 works
+    </span>
 
-      <h2>
-        Pre-order now.
-        Collect on Sunday.
-      </h2>
+    <h2>
+      Pre-order now.
+      Collect on Sunday.
+    </h2>
 
-      <p>
-        You can order weeks ahead. Each Sunday has its own Thursday
-        pre-order deadline.
-      </p>
-
-    </div>
-
-    <div class="rule-card">
-
-      <strong>
-        🍪 Our weekly rule
-      </strong>
-
-      <p>
-        Orders for a Sunday collection close at
-        <b>11:59 PM on the Thursday before.</b>
-      </p>
-
-      <br>
-
-      <p>
-        Once your payment is confirmed, your order is confirmed for
-        that Sunday's collection.
-      </p>
-
-    </div>
+    <p>
+      Each Sunday has its own Thursday pre-order deadline.
+      Place your order before the deadline and collect your
+      freshly made treats on Sunday.
+    </p>
 
   </div>
+
+
+  <div class="rule-card">
+
+    <strong>
+      🍪 Our weekly rule
+    </strong>
+
+    <p>
+      Orders for a Sunday collection close at
+      <b>11:59 PM on the Thursday before.</b>
+    </p>
+
+    <br>
+
+    <p>
+      Once your payment is confirmed, your order is confirmed
+      for that Sunday's collection.
+    </p>
+
+  </div>
+
+</div>
 
 </section>
 
 
-<!-- COLLECTION -->
+<!-- =========================
+     COLLECTION
+========================= -->
 
-<section class="section" id="collection">
+<section
+  class="section"
+  id="collection"
+>
 
-  <div class="container">
+<div class="container">
 
-    <div class="section-heading">
+  <div class="section-heading">
 
-      <span class="eyebrow">
-        Self-collection
-      </span>
+    <span class="eyebrow">
+      Self-collection
+    </span>
 
-      <h2>
-        Pick the Sunday that works for you.
-      </h2>
+    <h2>
+      Pick the Sunday that works for you.
+    </h2>
 
-      <p>
-        Available collection dates are loaded from our current
-        Batch 28 schedule.
-      </p>
-
-    </div>
-
-    <div
-      id="collectionPreview"
-      style="max-width:700px;margin:auto;"
-    ></div>
+    <p>
+      Available collection dates are loaded from our current
+      Batch 28 schedule.
+    </p>
 
   </div>
+
+
+  <div
+    id="collectionPreview"
+    style="max-width:700px;margin:auto;"
+  ></div>
+
+</div>
 
 </section>
 
 </main>
 
 
-<!-- CART DRAWER -->
+<!-- =========================
+     CART DRAWER
+========================= -->
 
-<div class="cart-drawer" id="cartDrawer">
+<div
+  class="cart-drawer"
+  id="cartDrawer"
+>
 
   <div
     class="cart-overlay"
     onclick="closeCart()"
   ></div>
 
+
   <aside class="cart-panel">
+
 
     <div class="cart-header">
 
@@ -1436,10 +1700,14 @@ footer p {
         </span>
 
         <span>
-          $<span id="cartTotal">0.00</span>
+          $
+          <span id="cartTotal">
+            0.00
+          </span>
         </span>
 
       </div>
+
 
       <button
         class="button"
@@ -1453,7 +1721,9 @@ footer p {
     </div>
 
 
-    <!-- CHECKOUT -->
+    <!-- =========================
+         CHECKOUT
+    ========================= -->
 
     <div
       class="checkout"
@@ -1535,7 +1805,9 @@ footer p {
       </button>
 
 
-      <!-- PAYNOW -->
+      <!-- =========================
+           PAYNOW
+      ========================= -->
 
       <div
         class="paynow"
@@ -1543,16 +1815,24 @@ footer p {
       >
 
         <h3>
-          Order <span id="paynowOrderId"></span>
+          Order
+          <span id="paynowOrderId"></span>
         </h3>
 
+
         <div class="paynow-total">
-          Pay $<span id="paynowAmount"></span>
+
+          Pay $
+          <span id="paynowAmount"></span>
+
         </div>
 
+
         <p class="paynow-note">
+
           Scan the QR code below with your banking app.
           Please pay the exact amount shown.
+
         </p>
 
 
@@ -1568,9 +1848,11 @@ footer p {
 
 
         <p class="paynow-note">
-          After completing the transfer, click the button below.
-          Your payment will remain <b>PENDING</b> until Batch 28
-          verifies receipt.
+
+          After completing the transfer, click the button
+          below. Your payment will remain
+          <b>PENDING</b> until Batch 28 verifies receipt.
+
         </p>
 
 
@@ -1588,7 +1870,9 @@ footer p {
     </div>
 
 
-    <!-- CONFIRMATION -->
+    <!-- =========================
+         CONFIRMATION
+    ========================= -->
 
     <div
       class="confirmation"
@@ -1615,17 +1899,24 @@ footer p {
 
 
       <div class="status-note">
+
         Your payment is currently being verified.
         Your order is only confirmed once Batch 28
         has received your payment.
+
       </div>
 
     </div>
+
 
   </aside>
 
 </div>
 
+
+<!-- =========================
+     TOAST
+========================= -->
 
 <div
   class="toast"
@@ -1633,56 +1924,63 @@ footer p {
 ></div>
 
 
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+  <div class="footer-grid">
 
-      <div>
+    <div>
 
-        <h2>
-          Batch 28
-        </h2>
+      <h2>
+        Batch 28
+      </h2>
 
-        <p>
-          Small-batch treats made fresh for your Sunday collection.
-        </p>
-
-      </div>
-
-      <div>
-
-        <h3>
-          Pre-order
-        </h3>
-
-        <p>
-          Orders for each Sunday close Thursday at 11:59 PM.
-        </p>
-
-      </div>
+      <p>
+        Small-batch treats made fresh for your Sunday
+        collection.
+      </p>
 
     </div>
 
-    <div class="copyright">
-      © 2026 Batch 28. Made in small batches.
+
+    <div>
+
+      <h3>
+        Pre-order
+      </h3>
+
+      <p>
+        Orders for each Sunday close Thursday at 11:59 PM.
+      </p>
+
     </div>
 
   </div>
+
+
+  <div class="copyright">
+    © 2026 Batch 28. Made in small batches.
+  </div>
+
+</div>
 
 </footer>
 
 
 <script>
 
-/*
-============================================================
-BATCH 28 CONFIGURATION
-============================================================
+/* ============================================================
+   BATCH 28 CONFIGURATION
+============================================================ */
 
+/*
 Replace this with your Google Apps Script Web App URL
-AFTER we create the Apps Script.
+AFTER you create the Apps Script.
 
 Example:
 
@@ -1694,6 +1992,10 @@ const GOOGLE_SCRIPT_URL =
 "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
 
+/* ============================================================
+   CART / ORDER VARIABLES
+============================================================ */
+
 let cart = [];
 
 let collections = [];
@@ -1701,77 +2003,9 @@ let collections = [];
 let currentOrder = null;
 
 
-/*
-============================================================
-PRODUCT OPTIONS
-============================================================
-*/
-
-const chipOptions = {
-
-  "CHIP-S": {
-    name: "Mini Chocolate Chips — Small Bottle",
-    shortName: "Small Bottle",
-    description: "15–16 pcs",
-    price: 7.90
-  },
-
-  "CHIP-B": {
-    name: "Mini Chocolate Chips — Big Bottle",
-    shortName: "Big Bottle",
-    description: "26 pcs",
-    price: 12.90
-  }
-
-};
-
-
-const brownieOptions = {
-
-  "BR-6": {
-    name: "Fudgy Brownies — 6 pcs",
-    shortName: "6 pcs",
-    price: 10.90
-  },
-
-  "BR-9": {
-    name: "Fudgy Brownies — 9 pcs",
-    shortName: "9 pcs",
-    price: 14.90
-  },
-
-  "BR-12": {
-    name: "Fudgy Brownies — 12 pcs",
-    shortName: "12 pcs",
-    price: 18.90
-  },
-
-  "BR-15": {
-    name: "Fudgy Brownies — 15 pcs",
-    shortName: "15 pcs",
-    price: 22.90
-  },
-
-  "BR-18": {
-    name: "Fudgy Brownies — 18 pcs",
-    shortName: "18 pcs",
-    price: 26.90
-  },
-
-  "BR-55": {
-    name: 'Fudgy Brownies — 5 × 5" Slab',
-    shortName: '5 × 5" Slab',
-    price: 28.90
-  }
-
-};
-
-
-/*
-============================================================
-INITIALISE
-============================================================
-*/
+/* ============================================================
+   INITIALISE
+============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -1779,133 +2013,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderCart();
 
-  updateChipPrice();
-
   updateBrowniePrice();
 
 });
 
 
-/*
-============================================================
-DROPDOWN PRICING
-============================================================
-*/
+/* ============================================================
+   HAMBURGER MENU
+============================================================ */
 
-function updateChipPrice() {
+function toggleMobileMenu() {
 
-  const select =
-    document.getElementById("chipSelect");
+  const menu =
+    document.getElementById("mobileMenu");
 
-  const selectedId =
-    select.value;
-
-  const option =
-    chipOptions[selectedId];
-
-  if (!option) return;
-
-  document.getElementById(
-    "chipSelectedOption"
-  ).textContent =
-    option.shortName;
-
-  document.getElementById(
-    "chipPrice"
-  ).textContent =
-    `$${option.price.toFixed(2)}`;
+  menu.classList.toggle("open");
 
 }
 
 
-function updateBrowniePrice() {
+function closeMobileMenu() {
 
-  const select =
-    document.getElementById("brownieSelect");
+  const menu =
+    document.getElementById("mobileMenu");
 
-  const selectedId =
-    select.value;
-
-  const option =
-    brownieOptions[selectedId];
-
-  if (!option) return;
-
-  document.getElementById(
-    "brownieSelectedOption"
-  ).textContent =
-    option.shortName;
-
-  document.getElementById(
-    "browniePrice"
-  ).textContent =
-    `$${option.price.toFixed(2)}`;
+  menu.classList.remove("open");
 
 }
 
 
-/*
-============================================================
-ADD SELECTED CHIP TO CART
-============================================================
-*/
-
-function addSelectedChipToCart() {
-
-  const selectedId =
-    document.getElementById("chipSelect").value;
-
-  const option =
-    chipOptions[selectedId];
-
-  if (!option) return;
-
-  addToCart(
-    selectedId,
-    option.name,
-    option.price
-  );
-
-}
-
-
-/*
-============================================================
-ADD SELECTED BROWNIE TO CART
-============================================================
-*/
-
-function addSelectedBrownieToCart() {
-
-  const selectedId =
-    document.getElementById("brownieSelect").value;
-
-  const option =
-    brownieOptions[selectedId];
-
-  if (!option) return;
-
-  addToCart(
-    selectedId,
-    option.name,
-    option.price
-  );
-
-}
-
-
-/*
-============================================================
-PRODUCT CART
-============================================================
-*/
+/* ============================================================
+   PRODUCT CART
+============================================================ */
 
 function addToCart(id, name, price) {
 
   const existing =
-    cart.find(
-      item => item.id === id
-    );
+    cart.find(item => item.id === id);
 
   if (existing) {
 
@@ -1930,6 +2074,85 @@ function addToCart(id, name, price) {
 
 }
 
+
+/* ============================================================
+   BROWNIE SELECTOR
+============================================================ */
+
+function updateBrowniePrice() {
+
+  const selector =
+    document.getElementById(
+      "brownieSelector"
+    );
+
+  const selected =
+    selector.options[
+      selector.selectedIndex
+    ];
+
+  const price =
+    Number(
+      selected.dataset.price
+    );
+
+  const priceDisplay =
+    document.getElementById(
+      "browniePrice"
+    );
+
+  if (
+    selector.selectedIndex === 0
+  ) {
+
+    priceDisplay.textContent =
+      "From $10.80";
+
+  } else {
+
+    priceDisplay.textContent =
+      `$${price.toFixed(2)}`;
+
+  }
+
+}
+
+
+function addSelectedBrownie() {
+
+  const selector =
+    document.getElementById(
+      "brownieSelector"
+    );
+
+  const selected =
+    selector.options[
+      selector.selectedIndex
+    ];
+
+  const id =
+    selected.value;
+
+  const name =
+    selected.dataset.name;
+
+  const price =
+    Number(
+      selected.dataset.price
+    );
+
+  addToCart(
+    id,
+    name,
+    price
+  );
+
+}
+
+
+/* ============================================================
+   QUANTITY
+============================================================ */
 
 function changeQuantity(id, change) {
 
@@ -1956,33 +2179,53 @@ function changeQuantity(id, change) {
 }
 
 
+/* ============================================================
+   CART TOTAL
+============================================================ */
+
 function getCartTotal() {
 
   return cart.reduce(
     (total, item) =>
-      total + item.price * item.quantity,
+      total +
+      item.price *
+      item.quantity,
     0
   );
 
 }
 
 
+/* ============================================================
+   RENDER CART
+============================================================ */
+
 function renderCart() {
 
   const cartItems =
-    document.getElementById("cartItems");
+    document.getElementById(
+      "cartItems"
+    );
 
   const emptyCart =
-    document.getElementById("emptyCart");
+    document.getElementById(
+      "emptyCart"
+    );
 
   const cartSummary =
-    document.getElementById("cartSummary");
+    document.getElementById(
+      "cartSummary"
+    );
 
   const cartCount =
-    document.getElementById("cartCount");
+    document.getElementById(
+      "cartCount"
+    );
 
   const cartTotal =
-    document.getElementById("cartTotal");
+    document.getElementById(
+      "cartTotal"
+    );
 
 
   const itemCount =
@@ -2042,7 +2285,10 @@ function renderCart() {
 
             <button
               type="button"
-              onclick="changeQuantity('${item.id}', -1)"
+              onclick="changeQuantity(
+                '${item.id}',
+                -1
+              )"
             >
               −
             </button>
@@ -2053,7 +2299,10 @@ function renderCart() {
 
             <button
               type="button"
-              onclick="changeQuantity('${item.id}', 1)"
+              onclick="changeQuantity(
+                '${item.id}',
+                1
+              )"
             >
               +
             </button>
@@ -2064,7 +2313,8 @@ function renderCart() {
 
         <strong>
           $${(
-            item.price * item.quantity
+            item.price *
+            item.quantity
           ).toFixed(2)}
         </strong>
 
@@ -2079,11 +2329,9 @@ function renderCart() {
 }
 
 
-/*
-============================================================
-CART DRAWER
-============================================================
-*/
+/* ============================================================
+   CART DRAWER
+============================================================ */
 
 function openCart() {
 
@@ -2103,11 +2351,9 @@ function closeCart() {
 }
 
 
-/*
-============================================================
-COLLECTIONS
-============================================================
-*/
+/* ============================================================
+   COLLECTIONS
+============================================================ */
 
 function loadCollections() {
 
@@ -2115,8 +2361,8 @@ function loadCollections() {
   Temporary demo collections.
 
   Once Google Apps Script is connected,
-  these will be replaced with the values from
-  your COLLECTIONS tab.
+  these can be replaced with values
+  from your COLLECTIONS tab.
   */
 
   const today =
@@ -2124,13 +2370,19 @@ function loadCollections() {
 
   collections = [];
 
-  for (let i = 0; i < 6; i++) {
+
+  for (
+    let i = 0;
+    i < 6;
+    i++
+  ) {
 
     const sunday =
       getNextSunday(
         today,
         i
       );
+
 
     collections.push({
 
@@ -2162,7 +2414,7 @@ function loadCollections() {
 
 
   /*
-  If your Google Apps Script endpoint
+  If Google Apps Script endpoint
   is available, attempt to fetch
   real collection information.
   */
@@ -2200,6 +2452,7 @@ function loadCollections() {
           }
 
           renderCollectionOptions();
+
           renderCollectionPreview();
 
         }
@@ -2208,6 +2461,7 @@ function loadCollections() {
       .catch(() => {
 
         renderCollectionOptions();
+
         renderCollectionPreview();
 
       });
@@ -2215,12 +2469,17 @@ function loadCollections() {
   } else {
 
     renderCollectionOptions();
+
     renderCollectionPreview();
 
   }
 
 }
 
+
+/* ============================================================
+   GET NEXT SUNDAY
+============================================================ */
 
 function getNextSunday(
   date,
@@ -2236,6 +2495,7 @@ function getNextSunday(
   const daysUntilSunday =
     (7 - day) % 7;
 
+
   result.setDate(
     result.getDate() +
     daysUntilSunday +
@@ -2244,10 +2504,9 @@ function getNextSunday(
 
 
   /*
-  If today is Sunday and the current
-  week's deadline has already passed,
-  the first available date should be
-  next Sunday.
+  If today is Sunday,
+  that week's collection
+  has already passed.
   */
 
   if (
@@ -2261,10 +2520,15 @@ function getNextSunday(
 
   }
 
+
   return result;
 
 }
 
+
+/* ============================================================
+   CHECK COLLECTION DEADLINE
+============================================================ */
 
 function isCollectionOpen(
   collectionDate
@@ -2278,8 +2542,8 @@ function isCollectionOpen(
 
 
   /*
-  Find the Thursday immediately
-  before the Sunday.
+  Thursday immediately before
+  the Sunday collection.
   */
 
   const cutoff =
@@ -2296,10 +2560,15 @@ function isCollectionOpen(
     999
   );
 
+
   return new Date() <= cutoff;
 
 }
 
+
+/* ============================================================
+   COLLECTION OPTIONS
+============================================================ */
 
 function renderCollectionOptions() {
 
@@ -2344,54 +2613,58 @@ function renderCollectionOptions() {
       .map(
         (collection, index) => `
 
-          <div class="collection-option">
+        <div class="collection-option">
 
-            <input
-              type="radio"
-              name="collection"
-              id="collection-${collection.id}"
-              value="${collection.id}"
-              ${index === 0 ? "checked" : ""}
-            >
+          <input
+            type="radio"
+            name="collection"
+            id="collection-${collection.id}"
+            value="${collection.id}"
+            ${index === 0 ? "checked" : ""}
+          >
 
-            <label
-              class="collection-label"
-              for="collection-${collection.id}"
-            >
+          <label
+            class="collection-label"
+            for="collection-${collection.id}"
+          >
 
-              <strong>
-                ${escapeHtml(
-                  collection.displayDate ||
-                  formatFriendlyDate(
-                    new Date(
-                      collection.date +
-                      "T12:00:00"
-                    )
+            <strong>
+              ${escapeHtml(
+                collection.displayDate ||
+                formatFriendlyDate(
+                  new Date(
+                    collection.date +
+                    "T12:00:00"
                   )
-                )}
-              </strong>
+                )
+              )}
+            </strong>
 
-              <span>
-                ${escapeHtml(
-                  collection.time
-                )}
-              </span>
+            <span>
+              ${escapeHtml(
+                collection.time
+              )}
+            </span>
 
-              <span>
-                Order by Thursday
-                11:59 PM
-              </span>
+            <span>
+              Order by Thursday
+              11:59 PM
+            </span>
 
-            </label>
+          </label>
 
-          </div>
+        </div>
 
-        `
+      `
       )
       .join("");
 
 }
 
+
+/* ============================================================
+   COLLECTION PREVIEW
+============================================================ */
 
 function renderCollectionPreview() {
 
@@ -2418,65 +2691,43 @@ function renderCollectionPreview() {
       .map(
         collection => `
 
-          <div
-            style="
-              padding:20px;
-              margin-bottom:12px;
-              border-radius:18px;
-              background:white;
-              box-shadow:0 8px 25px rgba(60,36,23,.07);
-            "
-          >
+        <div class="collection-card">
 
-            <strong>
-              ${escapeHtml(
-                collection.displayDate ||
-                formatFriendlyDate(
-                  new Date(
-                    collection.date +
-                    "T12:00:00"
-                  )
+          <strong>
+            ${escapeHtml(
+              collection.displayDate ||
+              formatFriendlyDate(
+                new Date(
+                  collection.date +
+                  "T12:00:00"
                 )
-              )}
-            </strong>
+              )
+            )}
+          </strong>
 
-            <div
-              style="
-                color:#75645a;
-                font-size:.9rem;
-                margin-top:4px;
-              "
-            >
-              ${escapeHtml(
-                collection.time
-              )}
-            </div>
-
-            <div
-              style="
-                color:#75645a;
-                font-size:.85rem;
-                margin-top:5px;
-              "
-            >
-              Pre-orders close Thursday
-              at 11:59 PM
-            </div>
-
+          <div>
+            ${escapeHtml(
+              collection.time
+            )}
           </div>
 
-        `
+          <div>
+            Pre-orders close Thursday
+            at 11:59 PM
+          </div>
+
+        </div>
+
+      `
       )
       .join("");
 
 }
 
 
-/*
-============================================================
-CHECKOUT
-============================================================
-*/
+/* ============================================================
+   CHECKOUT
+============================================================ */
 
 function showCheckout() {
 
@@ -2505,29 +2756,35 @@ function showCheckout() {
 }
 
 
-/*
-============================================================
-CREATE ORDER
-============================================================
-*/
+/* ============================================================
+   CREATE ORDER
+============================================================ */
 
 async function createOrder() {
 
   const name =
     document
-      .getElementById("customerName")
+      .getElementById(
+        "customerName"
+      )
       .value
       .trim();
+
 
   const whatsapp =
     document
-      .getElementById("whatsapp")
+      .getElementById(
+        "whatsapp"
+      )
       .value
       .trim();
 
+
   const notes =
     document
-      .getElementById("notes")
+      .getElementById(
+        "notes"
+      )
       .value
       .trim();
 
@@ -2574,7 +2831,8 @@ async function createOrder() {
   const collection =
     collections.find(
       item =>
-        item.id === selected.value
+        item.id ===
+        selected.value
     );
 
 
@@ -2686,7 +2944,7 @@ async function createOrder() {
 
 
   /*
-  Send to Google Apps Script.
+  Send order to Google Apps Script.
   */
 
   if (
@@ -2738,7 +2996,7 @@ async function createOrder() {
       "paynowOrderId"
     )
     .textContent =
-      orderId;
+    orderId;
 
 
   document
@@ -2746,7 +3004,7 @@ async function createOrder() {
       "paynowAmount"
     )
     .textContent =
-      total.toFixed(2);
+    total.toFixed(2);
 
 
   document
@@ -2767,11 +3025,9 @@ async function createOrder() {
 }
 
 
-/*
-============================================================
-CUSTOMER SAYS THEY PAID
-============================================================
-*/
+/* ============================================================
+   CUSTOMER MARKS PAYMENT
+============================================================ */
 
 function markCustomerPaid() {
 
@@ -2786,8 +3042,10 @@ function markCustomerPaid() {
   It only tells the spreadsheet that
   the customer says they have paid.
 
-  You verify the actual payment manually.
+  You manually verify the actual
+  PayNow payment.
   */
+
 
   currentOrder.customerMarkedPaid =
     true;
@@ -2837,11 +3095,9 @@ function markCustomerPaid() {
 }
 
 
-/*
-============================================================
-CONFIRMATION
-============================================================
-*/
+/* ============================================================
+   CONFIRMATION
+============================================================ */
 
 function showConfirmation() {
 
@@ -2898,21 +3154,27 @@ function showConfirmation() {
     .getElementById(
       "paynow"
     )
-    .classList.remove("show");
+    .classList.remove(
+      "show"
+    );
 
 
   document
     .getElementById(
       "checkout"
     )
-    .classList.remove("show");
+    .classList.remove(
+      "show"
+    );
 
 
   document
     .getElementById(
       "cartSummary"
     )
-    .classList.add("hidden");
+    .classList.add(
+      "hidden"
+    );
 
 
   document
@@ -2926,7 +3188,9 @@ function showConfirmation() {
     .getElementById(
       "confirmation"
     )
-    .classList.add("show");
+    .classList.add(
+      "show"
+    );
 
 
   cart = [];
@@ -2936,11 +3200,9 @@ function showConfirmation() {
 }
 
 
-/*
-============================================================
-HELPERS
-============================================================
-*/
+/* ============================================================
+   HELPERS
+============================================================ */
 
 function generateOrderId() {
 
@@ -2963,12 +3225,18 @@ function formatDateForInput(date) {
   const month =
     String(
       date.getMonth() + 1
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
 
   const day =
     String(
       date.getDate()
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
 
   return `${year}-${month}-${day}`;
 
@@ -2980,10 +3248,17 @@ function formatFriendlyDate(date) {
   return date.toLocaleDateString(
     "en-SG",
     {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
+      weekday:
+        "long",
+
+      day:
+        "numeric",
+
+      month:
+        "long",
+
+      year:
+        "numeric"
     }
   );
 
@@ -3029,8 +3304,10 @@ function showToast(message) {
       "toast"
     );
 
+
   toast.textContent =
     message;
+
 
   toast.classList.add(
     "show"

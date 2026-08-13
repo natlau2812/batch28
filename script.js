@@ -33,21 +33,21 @@ let currentOrder = null;
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  loadCollections();
-
-  renderCart();
-
-  updateBrowniePrice();
-
-  // Reuse the exact same panda image already embedded in the logo.
+  // Set the exact same panda image used by the logo first,
+  // so the cart / PayNow / confirmation panda is always loaded.
   const logoPanda = document.querySelector(".logo-panda img");
   const pandaStates = document.querySelectorAll(".exact-panda-state");
 
-  if (logoPanda) {
+  if (logoPanda && pandaStates.length) {
+    const pandaSrc = logoPanda.getAttribute("src");
     pandaStates.forEach(img => {
-      img.src = logoPanda.src;
+      img.src = pandaSrc;
     });
   }
+
+  loadCollections();
+  renderCart();
+  updateBrowniePrice();
 
 });
 
@@ -864,8 +864,13 @@ function getSelectedCollection() {
   }
 
 
-  const selectedCollection =
-    getSelectedCollection();
+  // No custom date was entered, so use the selected preset Sunday.
+  // IMPORTANT: do not call getSelectedCollection() here — that would
+  // recursively call itself and break checkout/payment.
+  const selected =
+    document.querySelector(
+      'input[name="collection"]:checked'
+    );
 
   if (!selected) {
 

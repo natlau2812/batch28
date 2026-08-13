@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (logoPanda && pandaStates.length) {
     const pandaSrc = logoPanda.getAttribute("src");
+
     pandaStates.forEach(img => {
       img.src = pandaSrc;
     });
@@ -120,6 +121,8 @@ function updateBrowniePrice() {
       "brownieSelector"
     );
 
+  if (!selector) return;
+
   const selected =
     selector.options[
       selector.selectedIndex
@@ -134,6 +137,8 @@ function updateBrowniePrice() {
     document.getElementById(
       "browniePrice"
     );
+
+  if (!priceDisplay) return;
 
   if (
     selector.selectedIndex === 0
@@ -158,6 +163,8 @@ function addSelectedBrownie() {
     document.getElementById(
       "brownieSelector"
     );
+
+  if (!selector) return;
 
   const selected =
     selector.options[
@@ -260,6 +267,19 @@ function renderCart() {
     document.getElementById(
       "cartTotal"
     );
+
+
+  if (
+    !cartItems ||
+    !emptyCart ||
+    !cartSummary ||
+    !cartCount ||
+    !cartTotal
+  ) {
+
+    return;
+
+  }
 
 
   const itemCount =
@@ -379,27 +399,45 @@ function openCart() {
 function closeCart() {
 
   const confirmation =
-    document.getElementById("confirmation");
+    document.getElementById(
+      "confirmation"
+    );
 
   const emptyCart =
-    document.getElementById("emptyCart");
+    document.getElementById(
+      "emptyCart"
+    );
 
   /*
-     If the customer has just completed payment, the
-     confirmation screen is a temporary view inside the
-     drawer. Closing the drawer returns it to the normal
-     empty-cart state, so reopening the cart shows only:
-     "Your cart is empty 🍪".
-  */
-  if (confirmation && confirmation.classList.contains("show")) {
+     If the customer has just completed payment,
+     the confirmation screen is a temporary view
+     inside the drawer.
 
-    confirmation.classList.remove("show");
+     Closing the drawer returns it to the normal
+     empty-cart state, so reopening the cart shows:
+
+     "Your cart is empty 🍪"
+  */
+
+  if (
+    confirmation &&
+    confirmation.classList.contains("show")
+  ) {
+
+    confirmation.classList.remove(
+      "show"
+    );
 
     if (emptyCart) {
-      emptyCart.classList.remove("hidden");
+
+      emptyCart.classList.remove(
+        "hidden"
+      );
+
     }
 
   }
+
 
   document
     .getElementById("cartDrawer")
@@ -415,31 +453,51 @@ function closeCart() {
 function loadCollections() {
 
   /*
-  Batch 28 automatically calculates the next 5 Sundays
-  from the customer's current date/time.
+  Batch 28 automatically calculates the next
+  5 Sundays from the customer's current date/time.
 
-  Sunday itself is skipped because that collection date
-  is already considered past once the day has started.
+  Sunday itself is skipped because that collection
+  date is already considered past once the day has started.
   */
 
-  const today = new Date();
+  const today =
+    new Date();
 
   collections = [];
 
-  for (let i = 0; i < 5; i++) {
 
-    const sunday = getNextSunday(today, i);
+  for (
+    let i = 0;
+    i < 5;
+    i++
+  ) {
+
+    const sunday =
+      getNextSunday(
+        today,
+        i
+      );
+
 
     collections.push({
 
       id:
-        `C${String(i + 1).padStart(3, "0")}`,
+        `C${String(
+          i + 1
+        ).padStart(
+          3,
+          "0"
+        )}`,
 
       date:
-        formatDateForInput(sunday),
+        formatDateForInput(
+          sunday
+        ),
 
       displayDate:
-        formatFriendlyDate(sunday),
+        formatFriendlyDate(
+          sunday
+        ),
 
       time:
         "2:00 PM – 5:00 PM",
@@ -448,13 +506,18 @@ function loadCollections() {
         "Collection address will be provided",
 
       status:
-        isCollectionOpen(formatDateForInput(sunday))
+        isCollectionOpen(
+          formatDateForInput(
+            sunday
+          )
+        )
           ? "OPEN"
           : "CLOSED"
 
     });
 
   }
+
 
   renderCollectionOptions();
 
@@ -469,7 +532,10 @@ function loadCollections() {
    GET NEXT SUNDAY
 ============================================================ */
 
-function getNextSunday(date, weeksAhead) {
+function getNextSunday(
+  date,
+  weeksAhead
+) {
 
   const result =
     new Date(date);
@@ -477,23 +543,34 @@ function getNextSunday(date, weeksAhead) {
   const day =
     result.getDay();
 
+
   /*
-  If today is Sunday, start from next Sunday.
-  Otherwise start from the upcoming Sunday.
+  If today is Sunday,
+  start from next Sunday.
+
+  Otherwise start from
+  the upcoming Sunday.
   */
 
   let daysUntilSunday =
     (7 - day) % 7;
 
+
   if (day === 0) {
+
     daysUntilSunday = 7;
+
   }
+
 
   result.setDate(
     result.getDate() +
     daysUntilSunday +
-    (weeksAhead * 7)
+    (
+      weeksAhead * 7
+    )
   );
+
 
   return result;
 
@@ -504,7 +581,9 @@ function getNextSunday(date, weeksAhead) {
    CHECK COLLECTION DEADLINE
 ============================================================ */
 
-function isCollectionOpen(collectionDate) {
+function isCollectionOpen(
+  collectionDate
+) {
 
   const date =
     new Date(
@@ -512,16 +591,20 @@ function isCollectionOpen(collectionDate) {
       "T23:59:59"
     );
 
+
   /*
-  Thursday immediately before the Sunday collection.
+  Thursday immediately before
+  the Sunday collection.
   */
 
   const cutoff =
     new Date(date);
 
+
   cutoff.setDate(
     cutoff.getDate() - 3
   );
+
 
   cutoff.setHours(
     23,
@@ -529,6 +612,7 @@ function isCollectionOpen(collectionDate) {
     59,
     999
   );
+
 
   return new Date() <= cutoff;
 
@@ -546,22 +630,34 @@ function renderCollectionOptions() {
       "collectionOptions"
     );
 
+
   if (!container) return;
+
 
   const openCollections =
     collections.filter(
       collection =>
         collection.status === "OPEN" &&
-        isCollectionOpen(collection.date)
+        isCollectionOpen(
+          collection.date
+        )
     );
 
-  if (openCollections.length === 0) {
+
+  if (
+    openCollections.length === 0
+  ) {
 
     container.innerHTML = `
 
       <div class="status-note">
-        The upcoming Sunday dates have closed.
-        Please choose a different Sunday using the date picker below.
+
+        The upcoming Sunday dates
+        have closed.
+
+        Please choose a different
+        Sunday using the date picker below.
+
       </div>
 
     `;
@@ -570,10 +666,14 @@ function renderCollectionOptions() {
 
   }
 
+
   container.innerHTML =
     openCollections
       .map(
-        (collection, index) => `
+        (
+          collection,
+          index
+        ) => `
 
         <div class="collection-option">
 
@@ -582,7 +682,11 @@ function renderCollectionOptions() {
             name="collection"
             id="collection-${collection.id}"
             value="${collection.id}"
-            ${index === 0 ? "checked" : ""}
+            ${
+              index === 0
+                ? "checked"
+                : ""
+            }
             onchange="clearCustomCollectionDate()"
           >
 
@@ -629,7 +733,9 @@ function renderCollectionPreview() {
       "collectionPreview"
     );
 
+
   if (!container) return;
+
 
   container.innerHTML =
     collections
@@ -638,7 +744,10 @@ function renderCollectionPreview() {
 
           const open =
             collection.status === "OPEN" &&
-            isCollectionOpen(collection.date);
+            isCollectionOpen(
+              collection.date
+            );
+
 
           return `
 
@@ -656,12 +765,20 @@ function renderCollectionPreview() {
                 )}
               </div>
 
-              <div class="${open ? "" : "collection-preview-closed"}">
+              <div
+                class="${
+                  open
+                    ? ""
+                    : "collection-preview-closed"
+                }"
+              >
+
                 ${
                   open
                     ? "Pre-orders close Thursday at 11:59 PM"
                     : "Pre-orders closed"
                 }
+
               </div>
 
             </div>
@@ -686,25 +803,37 @@ function setupCustomDatePicker() {
       "customCollectionDate"
     );
 
+
   if (!input) return;
 
+
   /*
-  Minimum date is tomorrow. The JavaScript validation below
-  additionally requires the chosen date to be a Sunday.
+  Minimum date is tomorrow.
+
+  JavaScript validation below additionally
+  requires the chosen date to be a Sunday.
   */
 
   const minDate =
     new Date();
 
+
   minDate.setDate(
     minDate.getDate() + 1
   );
 
+
   input.min =
-    formatDateForInput(minDate);
+    formatDateForInput(
+      minDate
+    );
 
 }
 
+
+/* ============================================================
+   TOGGLE CUSTOM DATE PICKER
+============================================================ */
 
 function toggleCustomDatePicker() {
 
@@ -713,12 +842,20 @@ function toggleCustomDatePicker() {
       "customDatePicker"
     );
 
+
   if (!picker) return;
 
-  picker.classList.toggle("show");
+
+  picker.classList.toggle(
+    "show"
+  );
 
 }
 
+
+/* ============================================================
+   CLEAR CUSTOM COLLECTION DATE
+============================================================ */
 
 function clearCustomCollectionDate() {
 
@@ -727,12 +864,19 @@ function clearCustomCollectionDate() {
       "customCollectionDate"
     );
 
+
   if (input) {
+
     input.value = "";
+
   }
 
 }
 
+
+/* ============================================================
+   SELECT CUSTOM COLLECTION DATE
+============================================================ */
 
 function selectCustomCollectionDate() {
 
@@ -741,7 +885,16 @@ function selectCustomCollectionDate() {
       "customCollectionDate"
     );
 
-  if (!input || !input.value) return;
+
+  if (
+    !input ||
+    !input.value
+  ) {
+
+    return;
+
+  }
+
 
   const selectedDate =
     new Date(
@@ -749,25 +902,32 @@ function selectCustomCollectionDate() {
       "T12:00:00"
     );
 
+
   /*
   Sunday = 0.
   */
 
-  if (selectedDate.getDay() !== 0) {
+  if (
+    selectedDate.getDay() !== 0
+  ) {
 
     showToast(
       "Please choose a Sunday for collection."
     );
 
+
     input.value = "";
+
 
     return;
 
   }
 
+
   /*
-  Remove any selected preset Sunday so the custom
-  date becomes the active selection.
+  Remove any selected preset Sunday
+  so the custom date becomes the
+  active selection.
   */
 
   document
@@ -776,12 +936,18 @@ function selectCustomCollectionDate() {
     )
     .forEach(
       radio => {
-        radio.checked = false;
+
+        radio.checked =
+          false;
+
       }
     );
 
+
   showToast(
-    `Collection selected: ${formatFriendlyDate(selectedDate)}`
+    `Collection selected: ${formatFriendlyDate(
+      selectedDate
+    )}`
   );
 
 }
@@ -798,6 +964,11 @@ function getSelectedCollection() {
       "customCollectionDate"
     );
 
+
+  /*
+  CUSTOM SUNDAY
+  */
+
   if (
     customInput &&
     customInput.value
@@ -809,16 +980,20 @@ function getSelectedCollection() {
         "T12:00:00"
       );
 
+
     if (
       customDate.getDay() !== 0
     ) {
 
       return {
+
         error:
           "Please choose a Sunday for collection."
+
       };
 
     }
+
 
     if (
       !isCollectionOpen(
@@ -827,11 +1002,14 @@ function getSelectedCollection() {
     ) {
 
       return {
+
         error:
           "Sorry, that collection Sunday has already closed. Please choose another Sunday."
+
       };
 
     }
+
 
     return {
 
@@ -864,22 +1042,34 @@ function getSelectedCollection() {
   }
 
 
-  // No custom date was entered, so use the selected preset Sunday.
-  // IMPORTANT: do not call getSelectedCollection() here — that would
-  // recursively call itself and break checkout/payment.
+  /*
+  PRESET SUNDAY
+
+  IMPORTANT:
+  We directly check the selected radio button here.
+
+  We DO NOT call getSelectedCollection()
+  again because that would create an infinite
+  recursive loop.
+  */
+
   const selected =
     document.querySelector(
       'input[name="collection"]:checked'
     );
 
+
   if (!selected) {
 
     return {
+
       error:
         "Please select a collection Sunday."
+
     };
 
   }
+
 
   const collection =
     collections.find(
@@ -887,14 +1077,18 @@ function getSelectedCollection() {
         item.id === selected.value
     );
 
+
   if (!collection) {
 
     return {
+
       error:
         "Please select a valid collection date."
+
     };
 
   }
+
 
   if (
     !isCollectionOpen(
@@ -903,17 +1097,23 @@ function getSelectedCollection() {
   ) {
 
     return {
+
       error:
         "Sorry, that collection Sunday has already closed. Please choose another Sunday."
+
     };
 
   }
 
+
   return {
+
     collection
+
   };
 
 }
+
 
 /* ============================================================
    CHECKOUT
@@ -923,11 +1123,15 @@ function showCheckout() {
 
   setupCustomDatePicker();
 
-  if (cart.length === 0) {
+
+  if (
+    cart.length === 0
+  ) {
 
     showToast(
       "Your cart is empty."
     );
+
 
     return;
 
@@ -935,14 +1139,21 @@ function showCheckout() {
 
 
   document
-    .getElementById("checkout")
-    .classList.add("show");
+    .getElementById(
+      "checkout"
+    )
+    .classList.add(
+      "show"
+    );
 
 
   document
-    .getElementById("checkout")
+    .getElementById(
+      "checkout"
+    )
     .scrollIntoView({
-      behavior: "smooth"
+      behavior:
+        "smooth"
     });
 
 }
@@ -954,6 +1165,10 @@ function showCheckout() {
 
 async function createOrder() {
 
+  /*
+  Get customer name.
+  */
+
   const name =
     document
       .getElementById(
@@ -962,6 +1177,10 @@ async function createOrder() {
       .value
       .trim();
 
+
+  /*
+  Get WhatsApp number.
+  */
 
   const whatsapp =
     document
@@ -972,6 +1191,10 @@ async function createOrder() {
       .trim();
 
 
+  /*
+  Get optional order notes.
+  */
+
   const notes =
     document
       .getElementById(
@@ -981,11 +1204,9 @@ async function createOrder() {
       .trim();
 
 
-  const selected =
-    document.querySelector(
-      'input[name="collection"]:checked'
-    );
-
+  /*
+  Validate name.
+  */
 
   if (!name) {
 
@@ -993,10 +1214,15 @@ async function createOrder() {
       "Please enter your name."
     );
 
+
     return;
 
   }
 
+
+  /*
+  Validate WhatsApp.
+  */
 
   if (!whatsapp) {
 
@@ -1004,33 +1230,68 @@ async function createOrder() {
       "Please enter your WhatsApp number."
     );
 
+
     return;
 
   }
 
 
-  if (selectedCollection.error) {
+  /*
+  THIS IS THE IMPORTANT FIX.
+
+  Get the selected collection BEFORE
+  trying to use selectedCollection.error.
+  */
+
+  const selectedCollection =
+    getSelectedCollection();
+
+
+  /*
+  Validate collection.
+  */
+
+  if (
+    selectedCollection.error
+  ) {
 
     showToast(
       selectedCollection.error
     );
 
+
     return;
 
   }
 
 
+  /*
+  Get the actual collection object.
+  */
+
   const collection =
     selectedCollection.collection;
 
+
+  /*
+  Generate order ID.
+  */
 
   const orderId =
     generateOrderId();
 
 
+  /*
+  Calculate total.
+  */
+
   const total =
     getCartTotal();
 
+
+  /*
+  Prepare order items.
+  */
 
   const items =
     cart.map(
@@ -1059,6 +1320,10 @@ async function createOrder() {
       })
     );
 
+
+  /*
+  Create order object.
+  */
 
   currentOrder = {
 
@@ -1105,6 +1370,10 @@ async function createOrder() {
 
   /*
   Send order to Google Apps Script.
+
+  If the URL has not been configured yet,
+  the website will still continue to the
+  PayNow screen.
   */
 
   if (
@@ -1127,8 +1396,10 @@ async function createOrder() {
             "no-cors",
 
           headers: {
+
             "Content-Type":
               "text/plain;charset=utf-8"
+
           },
 
           body:
@@ -1151,6 +1422,10 @@ async function createOrder() {
   }
 
 
+  /*
+  Display order ID in PayNow section.
+  */
+
   document
     .getElementById(
       "paynowOrderId"
@@ -1158,6 +1433,10 @@ async function createOrder() {
     .textContent =
     orderId;
 
+
+  /*
+  Display amount in PayNow section.
+  */
 
   document
     .getElementById(
@@ -1167,19 +1446,30 @@ async function createOrder() {
     total.toFixed(2);
 
 
+  /*
+  Show PayNow section.
+  */
+
   document
     .getElementById(
       "paynow"
     )
-    .classList.add("show");
+    .classList.add(
+      "show"
+    );
 
+
+  /*
+  Scroll to PayNow section.
+  */
 
   document
     .getElementById(
       "paynow"
     )
     .scrollIntoView({
-      behavior: "smooth"
+      behavior:
+        "smooth"
     });
 
 }
@@ -1191,7 +1481,11 @@ async function createOrder() {
 
 function markCustomerPaid() {
 
-  if (!currentOrder) return;
+  if (!currentOrder) {
+
+    return;
+
+  }
 
 
   /*
@@ -1206,10 +1500,14 @@ function markCustomerPaid() {
   PayNow payment.
   */
 
-
   currentOrder.customerMarkedPaid =
     true;
 
+
+  /*
+  Tell Google Apps Script that the
+  customer says payment has been made.
+  */
 
   if (
     GOOGLE_SCRIPT_URL &&
@@ -1229,8 +1527,10 @@ function markCustomerPaid() {
           "no-cors",
 
         headers: {
+
           "Content-Type":
             "text/plain;charset=utf-8"
+
         },
 
         body:
@@ -1250,6 +1550,10 @@ function markCustomerPaid() {
   }
 
 
+  /*
+  Show order received screen.
+  */
+
   showConfirmation();
 
 }
@@ -1262,22 +1566,47 @@ function markCustomerPaid() {
 function showConfirmation() {
 
   /*
-     The cart itself must disappear once payment has been
-     submitted. The confirmation screen replaces it inside
-     the same drawer. The cart will be restored to the normal
-     empty state when the customer closes and reopens the cart.
+  Hide the normal empty-cart state
+  while the confirmation screen is shown.
   */
-  document
-    .getElementById("emptyCart")
-    .classList.add("hidden");
 
   document
-    .getElementById("cartItems")
-    .innerHTML = "";
+    .getElementById(
+      "emptyCart"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  /*
+  Clear cart items.
+  */
 
   document
-    .getElementById("cartSummary")
-    .classList.add("hidden");
+    .getElementById(
+      "cartItems"
+    )
+    .innerHTML =
+    "";
+
+
+  /*
+  Hide cart summary.
+  */
+
+  document
+    .getElementById(
+      "cartSummary"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  /*
+  Build confirmation details.
+  */
 
   const card =
     document.getElementById(
@@ -1288,26 +1617,48 @@ function showConfirmation() {
   card.innerHTML = `
 
     <div>
-      <strong>Order:</strong>
+
+      <strong>
+        Order:
+      </strong>
+
       ${escapeHtml(
         currentOrder.orderId
       )}
+
     </div>
 
+
     <div>
-      <strong>Name:</strong>
+
+      <strong>
+        Name:
+      </strong>
+
       ${escapeHtml(
         currentOrder.customerName
       )}
+
     </div>
 
+
     <div>
-      <strong>Total:</strong>
+
+      <strong>
+        Total:
+      </strong>
+
       $${currentOrder.total.toFixed(2)}
+
     </div>
 
+
     <div>
-      <strong>Collection:</strong>
+
+      <strong>
+        Collection:
+      </strong>
+
       ${escapeHtml(
         formatFriendlyDate(
           new Date(
@@ -1316,17 +1667,28 @@ function showConfirmation() {
           )
         )
       )}
+
     </div>
 
+
     <div>
-      <strong>Time:</strong>
+
+      <strong>
+        Time:
+      </strong>
+
       ${escapeHtml(
         currentOrder.collectionTime
       )}
+
     </div>
 
   `;
 
+
+  /*
+  Hide PayNow.
+  */
 
   document
     .getElementById(
@@ -1337,6 +1699,10 @@ function showConfirmation() {
     );
 
 
+  /*
+  Hide checkout.
+  */
+
   document
     .getElementById(
       "checkout"
@@ -1345,6 +1711,10 @@ function showConfirmation() {
       "show"
     );
 
+
+  /*
+  Show confirmation.
+  */
 
   document
     .getElementById(
@@ -1355,15 +1725,30 @@ function showConfirmation() {
     );
 
 
+  /*
+  Empty the actual cart.
+  */
+
   cart = [];
+
 
   renderCart();
 
-  // renderCart() normally shows the empty-cart state when the cart is empty.
-  // During the confirmation view, keep the empty-cart state hidden.
+
+  /*
+  renderCart() normally shows the empty-cart
+  state when cart is empty.
+
+  During confirmation view, keep it hidden.
+  */
+
   document
-    .getElementById("emptyCart")
-    .classList.add("hidden");
+    .getElementById(
+      "emptyCart"
+    )
+    .classList.add(
+      "hidden"
+    );
 
 }
 
@@ -1380,15 +1765,23 @@ function generateOrderId() {
       Math.random() * 9000
     );
 
+
   return `B28-${random}`;
 
 }
 
 
-function formatDateForInput(date) {
+/* ============================================================
+   FORMAT DATE FOR INPUT
+============================================================ */
+
+function formatDateForInput(
+  date
+) {
 
   const year =
     date.getFullYear();
+
 
   const month =
     String(
@@ -1398,6 +1791,7 @@ function formatDateForInput(date) {
       "0"
     );
 
+
   const day =
     String(
       date.getDate()
@@ -1406,16 +1800,24 @@ function formatDateForInput(date) {
       "0"
     );
 
+
   return `${year}-${month}-${day}`;
 
 }
 
 
-function formatFriendlyDate(date) {
+/* ============================================================
+   FORMAT FRIENDLY DATE
+============================================================ */
+
+function formatFriendlyDate(
+  date
+) {
 
   return date.toLocaleDateString(
     "en-SG",
     {
+
       weekday:
         "long",
 
@@ -1427,13 +1829,20 @@ function formatFriendlyDate(date) {
 
       year:
         "numeric"
+
     }
   );
 
 }
 
 
-function escapeHtml(value) {
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
+
+function escapeHtml(
+  value
+) {
 
   return String(value)
 
@@ -1465,12 +1874,21 @@ function escapeHtml(value) {
 }
 
 
-function showToast(message) {
+/* ============================================================
+   TOAST
+============================================================ */
+
+function showToast(
+  message
+) {
 
   const toast =
     document.getElementById(
       "toast"
     );
+
+
+  if (!toast) return;
 
 
   toast.textContent =

@@ -1,8 +1,8 @@
-/* ============================================================
-   BATCH 28 CONFIGURATION
-============================================================ */
-
 /*
+============================================================
+BATCH 28 CONFIGURATION
+============================================================
+
 Replace this with your Google Apps Script Web App URL
 AFTER you create the Apps Script.
 
@@ -38,16 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCart();
 
   updateBrowniePrice();
-
-  // Reuse the exact same panda image already embedded in the logo.
-  const logoPanda = document.querySelector(".logo-panda img");
-  const pandaStates = document.querySelectorAll(".exact-panda-state");
-
-  if (logoPanda) {
-    pandaStates.forEach(img => {
-      img.src = logoPanda.src;
-    });
-  }
 
 });
 
@@ -92,10 +82,15 @@ function addToCart(id, name, price) {
   } else {
 
     cart.push({
+
       id,
+
       name,
+
       price,
+
       quantity: 1
+
     });
 
   }
@@ -378,29 +373,6 @@ function openCart() {
 
 function closeCart() {
 
-  const confirmation =
-    document.getElementById("confirmation");
-
-  const emptyCart =
-    document.getElementById("emptyCart");
-
-  /*
-     If the customer has just completed payment, the
-     confirmation screen is a temporary view inside the
-     drawer. Closing the drawer returns it to the normal
-     empty-cart state, so reopening the cart shows only:
-     "Your cart is empty 🍪".
-  */
-  if (confirmation && confirmation.classList.contains("show")) {
-
-    confirmation.classList.remove("show");
-
-    if (emptyCart) {
-      emptyCart.classList.remove("hidden");
-    }
-
-  }
-
   document
     .getElementById("cartDrawer")
     .classList.remove("open");
@@ -415,20 +387,31 @@ function closeCart() {
 function loadCollections() {
 
   /*
-  Batch 28 automatically calculates the next 5 Sundays
-  from the customer's current date/time.
+  Temporary demo collections.
 
-  Sunday itself is skipped because that collection date
-  is already considered past once the day has started.
+  Once Google Apps Script is connected,
+  these can be replaced with values
+  from your COLLECTIONS tab.
   */
 
-  const today = new Date();
+  const today =
+    new Date();
 
   collections = [];
 
-  for (let i = 0; i < 5; i++) {
 
-    const sunday = getNextSunday(today, i);
+  for (
+    let i = 0;
+    i < 6;
+    i++
+  ) {
+
+    const sunday =
+      getNextSunday(
+        today,
+        i
+      );
+
 
     collections.push({
 
@@ -436,10 +419,14 @@ function loadCollections() {
         `C${String(i + 1).padStart(3, "0")}`,
 
       date:
-        formatDateForInput(sunday),
+        formatDateForInput(
+          sunday
+        ),
 
       displayDate:
-        formatFriendlyDate(sunday),
+        formatFriendlyDate(
+          sunday
+        ),
 
       time:
         "2:00 PM – 5:00 PM",
@@ -448,19 +435,73 @@ function loadCollections() {
         "Collection address will be provided",
 
       status:
-        isCollectionOpen(formatDateForInput(sunday))
-          ? "OPEN"
-          : "CLOSED"
+        "OPEN"
 
     });
 
   }
 
-  renderCollectionOptions();
 
-  renderCollectionPreview();
+  /*
+  If Google Apps Script endpoint
+  is available, attempt to fetch
+  real collection information.
+  */
 
-  setupCustomDatePicker();
+  if (
+    GOOGLE_SCRIPT_URL &&
+    !GOOGLE_SCRIPT_URL.includes(
+      "YOUR_GOOGLE"
+    )
+  ) {
+
+    fetch(
+      GOOGLE_SCRIPT_URL +
+      "?action=getCollections"
+    )
+
+      .then(
+        response =>
+          response.json()
+      )
+
+      .then(
+        data => {
+
+          if (
+            data &&
+            Array.isArray(
+              data.collections
+            )
+          ) {
+
+            collections =
+              data.collections;
+
+          }
+
+          renderCollectionOptions();
+
+          renderCollectionPreview();
+
+        }
+      )
+
+      .catch(() => {
+
+        renderCollectionOptions();
+
+        renderCollectionPreview();
+
+      });
+
+  } else {
+
+    renderCollectionOptions();
+
+    renderCollectionPreview();
+
+  }
 
 }
 
@@ -469,7 +510,10 @@ function loadCollections() {
    GET NEXT SUNDAY
 ============================================================ */
 
-function getNextSunday(date, weeksAhead) {
+function getNextSunday(
+  date,
+  weeksAhead
+) {
 
   const result =
     new Date(date);
@@ -477,23 +521,34 @@ function getNextSunday(date, weeksAhead) {
   const day =
     result.getDay();
 
-  /*
-  If today is Sunday, start from next Sunday.
-  Otherwise start from the upcoming Sunday.
-  */
-
-  let daysUntilSunday =
+  const daysUntilSunday =
     (7 - day) % 7;
 
-  if (day === 0) {
-    daysUntilSunday = 7;
-  }
 
   result.setDate(
     result.getDate() +
     daysUntilSunday +
     (weeksAhead * 7)
   );
+
+
+  /*
+  If today is Sunday,
+  that week's collection
+  has already passed.
+  */
+
+  if (
+    weeksAhead === 0 &&
+    day === 0
+  ) {
+
+    result.setDate(
+      result.getDate() + 7
+    );
+
+  }
+
 
   return result;
 
@@ -504,7 +559,9 @@ function getNextSunday(date, weeksAhead) {
    CHECK COLLECTION DEADLINE
 ============================================================ */
 
-function isCollectionOpen(collectionDate) {
+function isCollectionOpen(
+  collectionDate
+) {
 
   const date =
     new Date(
@@ -512,8 +569,10 @@ function isCollectionOpen(collectionDate) {
       "T23:59:59"
     );
 
+
   /*
-  Thursday immediately before the Sunday collection.
+  Thursday immediately before
+  the Sunday collection.
   */
 
   const cutoff =
@@ -529,6 +588,7 @@ function isCollectionOpen(collectionDate) {
     59,
     999
   );
+
 
   return new Date() <= cutoff;
 
@@ -548,20 +608,26 @@ function renderCollectionOptions() {
 
   if (!container) return;
 
+
   const openCollections =
     collections.filter(
       collection =>
-        collection.status === "OPEN" &&
-        isCollectionOpen(collection.date)
+        collection.status !== "CLOSED" &&
+        isCollectionOpen(
+          collection.date
+        )
     );
 
-  if (openCollections.length === 0) {
+
+  if (
+    openCollections.length === 0
+  ) {
 
     container.innerHTML = `
 
       <div class="status-note">
-        The upcoming Sunday dates have closed.
-        Please choose a different Sunday using the date picker below.
+        No upcoming collection dates
+        are currently available.
       </div>
 
     `;
@@ -569,6 +635,7 @@ function renderCollectionOptions() {
     return;
 
   }
+
 
   container.innerHTML =
     openCollections
@@ -583,7 +650,6 @@ function renderCollectionOptions() {
             id="collection-${collection.id}"
             value="${collection.id}"
             ${index === 0 ? "checked" : ""}
-            onchange="clearCustomCollectionDate()"
           >
 
           <label
@@ -593,7 +659,13 @@ function renderCollectionOptions() {
 
             <strong>
               ${escapeHtml(
-                collection.displayDate
+                collection.displayDate ||
+                formatFriendlyDate(
+                  new Date(
+                    collection.date +
+                    "T12:00:00"
+                  )
+                )
               )}
             </strong>
 
@@ -604,7 +676,8 @@ function renderCollectionOptions() {
             </span>
 
             <span>
-              Order by Thursday 11:59 PM
+              Order by Thursday
+              11:59 PM
             </span>
 
           </label>
@@ -631,44 +704,50 @@ function renderCollectionPreview() {
 
   if (!container) return;
 
+
+  const openCollections =
+    collections.filter(
+      collection =>
+        collection.status !== "CLOSED" &&
+        isCollectionOpen(
+          collection.date
+        )
+    );
+
+
   container.innerHTML =
-    collections
+    openCollections
       .map(
-        collection => {
+        collection => `
 
-          const open =
-            collection.status === "OPEN" &&
-            isCollectionOpen(collection.date);
+        <div class="collection-card">
 
-          return `
+          <strong>
+            ${escapeHtml(
+              collection.displayDate ||
+              formatFriendlyDate(
+                new Date(
+                  collection.date +
+                  "T12:00:00"
+                )
+              )
+            )}
+          </strong>
 
-            <div class="collection-card">
+          <div>
+            ${escapeHtml(
+              collection.time
+            )}
+          </div>
 
-              <strong>
-                ${escapeHtml(
-                  collection.displayDate
-                )}
-              </strong>
+          <div>
+            Pre-orders close Thursday
+            at 11:59 PM
+          </div>
 
-              <div>
-                ${escapeHtml(
-                  collection.time
-                )}
-              </div>
+        </div>
 
-              <div class="${open ? "" : "collection-preview-closed"}">
-                ${
-                  open
-                    ? "Pre-orders close Thursday at 11:59 PM"
-                    : "Pre-orders closed"
-                }
-              </div>
-
-            </div>
-
-          `;
-
-        }
+      `
       )
       .join("");
 
@@ -676,247 +755,10 @@ function renderCollectionPreview() {
 
 
 /* ============================================================
-   CUSTOM DATE PICKER
-============================================================ */
-
-function setupCustomDatePicker() {
-
-  const input =
-    document.getElementById(
-      "customCollectionDate"
-    );
-
-  if (!input) return;
-
-  /*
-  Minimum date is tomorrow. The JavaScript validation below
-  additionally requires the chosen date to be a Sunday.
-  */
-
-  const minDate =
-    new Date();
-
-  minDate.setDate(
-    minDate.getDate() + 1
-  );
-
-  input.min =
-    formatDateForInput(minDate);
-
-}
-
-
-function toggleCustomDatePicker() {
-
-  const picker =
-    document.getElementById(
-      "customDatePicker"
-    );
-
-  if (!picker) return;
-
-  picker.classList.toggle("show");
-
-}
-
-
-function clearCustomCollectionDate() {
-
-  const input =
-    document.getElementById(
-      "customCollectionDate"
-    );
-
-  if (input) {
-    input.value = "";
-  }
-
-}
-
-
-function selectCustomCollectionDate() {
-
-  const input =
-    document.getElementById(
-      "customCollectionDate"
-    );
-
-  if (!input || !input.value) return;
-
-  const selectedDate =
-    new Date(
-      input.value +
-      "T12:00:00"
-    );
-
-  /*
-  Sunday = 0.
-  */
-
-  if (selectedDate.getDay() !== 0) {
-
-    showToast(
-      "Please choose a Sunday for collection."
-    );
-
-    input.value = "";
-
-    return;
-
-  }
-
-  /*
-  Remove any selected preset Sunday so the custom
-  date becomes the active selection.
-  */
-
-  document
-    .querySelectorAll(
-      'input[name="collection"]'
-    )
-    .forEach(
-      radio => {
-        radio.checked = false;
-      }
-    );
-
-  showToast(
-    `Collection selected: ${formatFriendlyDate(selectedDate)}`
-  );
-
-}
-
-
-/* ============================================================
-   GET SELECTED COLLECTION
-============================================================ */
-
-function getSelectedCollection() {
-
-  const customInput =
-    document.getElementById(
-      "customCollectionDate"
-    );
-
-  if (
-    customInput &&
-    customInput.value
-  ) {
-
-    const customDate =
-      new Date(
-        customInput.value +
-        "T12:00:00"
-      );
-
-    if (
-      customDate.getDay() !== 0
-    ) {
-
-      return {
-        error:
-          "Please choose a Sunday for collection."
-      };
-
-    }
-
-    if (
-      !isCollectionOpen(
-        customInput.value
-      )
-    ) {
-
-      return {
-        error:
-          "Sorry, that collection Sunday has already closed. Please choose another Sunday."
-      };
-
-    }
-
-    return {
-
-      collection: {
-
-        id:
-          `CUSTOM-${customInput.value}`,
-
-        date:
-          customInput.value,
-
-        displayDate:
-          formatFriendlyDate(
-            customDate
-          ),
-
-        time:
-          "2:00 PM – 5:00 PM",
-
-        address:
-          "Collection address will be provided",
-
-        status:
-          "OPEN"
-
-      }
-
-    };
-
-  }
-
-
-  const selectedCollection =
-    getSelectedCollection();
-
-  if (!selected) {
-
-    return {
-      error:
-        "Please select a collection Sunday."
-    };
-
-  }
-
-  const collection =
-    collections.find(
-      item =>
-        item.id === selected.value
-    );
-
-  if (!collection) {
-
-    return {
-      error:
-        "Please select a valid collection date."
-    };
-
-  }
-
-  if (
-    !isCollectionOpen(
-      collection.date
-    )
-  ) {
-
-    return {
-      error:
-        "Sorry, that collection Sunday has already closed. Please choose another Sunday."
-    };
-
-  }
-
-  return {
-    collection
-  };
-
-}
-
-/* ============================================================
    CHECKOUT
 ============================================================ */
 
 function showCheckout() {
-
-  setupCustomDatePicker();
 
   if (cart.length === 0) {
 
@@ -1004,10 +846,10 @@ async function createOrder() {
   }
 
 
-  if (selectedCollection.error) {
+  if (!selected) {
 
     showToast(
-      selectedCollection.error
+      "Please select a collection Sunday."
     );
 
     return;
@@ -1016,7 +858,39 @@ async function createOrder() {
 
 
   const collection =
-    selectedCollection.collection;
+    collections.find(
+      item =>
+        item.id ===
+        selected.value
+    );
+
+
+  if (!collection) {
+
+    showToast(
+      "Please select a valid collection date."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !isCollectionOpen(
+      collection.date
+    )
+  ) {
+
+    showToast(
+      "Sorry, that collection date has closed."
+    );
+
+    loadCollections();
+
+    return;
+
+  }
 
 
   const orderId =
@@ -1122,8 +996,10 @@ async function createOrder() {
             "no-cors",
 
           headers: {
+
             "Content-Type":
               "text/plain;charset=utf-8"
+
           },
 
           body:
@@ -1224,8 +1100,10 @@ function markCustomerPaid() {
           "no-cors",
 
         headers: {
+
           "Content-Type":
             "text/plain;charset=utf-8"
+
         },
 
         body:
@@ -1256,24 +1134,6 @@ function markCustomerPaid() {
 
 function showConfirmation() {
 
-  /*
-     The cart itself must disappear once payment has been
-     submitted. The confirmation screen replaces it inside
-     the same drawer. The cart will be restored to the normal
-     empty state when the customer closes and reopens the cart.
-  */
-  document
-    .getElementById("emptyCart")
-    .classList.add("hidden");
-
-  document
-    .getElementById("cartItems")
-    .innerHTML = "";
-
-  document
-    .getElementById("cartSummary")
-    .classList.add("hidden");
-
   const card =
     document.getElementById(
       "confirmationCard"
@@ -1283,26 +1143,40 @@ function showConfirmation() {
   card.innerHTML = `
 
     <div>
+
       <strong>Order:</strong>
+
       ${escapeHtml(
         currentOrder.orderId
       )}
+
     </div>
 
+
     <div>
+
       <strong>Name:</strong>
+
       ${escapeHtml(
         currentOrder.customerName
       )}
+
     </div>
 
+
     <div>
+
       <strong>Total:</strong>
+
       $${currentOrder.total.toFixed(2)}
+
     </div>
 
+
     <div>
+
       <strong>Collection:</strong>
+
       ${escapeHtml(
         formatFriendlyDate(
           new Date(
@@ -1311,13 +1185,18 @@ function showConfirmation() {
           )
         )
       )}
+
     </div>
 
+
     <div>
+
       <strong>Time:</strong>
+
       ${escapeHtml(
         currentOrder.collectionTime
       )}
+
     </div>
 
   `;
@@ -1343,6 +1222,22 @@ function showConfirmation() {
 
   document
     .getElementById(
+      "cartSummary"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "cartItems"
+    )
+    .innerHTML = "";
+
+
+  document
+    .getElementById(
       "confirmation"
     )
     .classList.add(
@@ -1352,13 +1247,8 @@ function showConfirmation() {
 
   cart = [];
 
-  renderCart();
 
-  // renderCart() normally shows the empty-cart state when the cart is empty.
-  // During the confirmation view, keep the empty-cart state hidden.
-  document
-    .getElementById("emptyCart")
-    .classList.add("hidden");
+  renderCart();
 
 }
 
@@ -1411,6 +1301,7 @@ function formatFriendlyDate(date) {
   return date.toLocaleDateString(
     "en-SG",
     {
+
       weekday:
         "long",
 
@@ -1422,6 +1313,7 @@ function formatFriendlyDate(date) {
 
       year:
         "numeric"
+
     }
   );
 

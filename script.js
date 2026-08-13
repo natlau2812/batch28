@@ -26,13 +26,6 @@ let collections = [];
 
 let currentOrder = null;
 
-/*
-Holds a collection object when the customer picks their own
-Sunday via the "Need a different Sunday?" date field, instead
-of one of the auto-generated radio options.
-*/
-let customCollection = null;
-
 
 /* ============================================================
    INITIALISE
@@ -657,7 +650,6 @@ function renderCollectionOptions() {
             id="collection-${collection.id}"
             value="${collection.id}"
             ${index === 0 ? "checked" : ""}
-            onclick="clearCustomCollectionDate()"
           >
 
           <label
@@ -763,139 +755,6 @@ function renderCollectionPreview() {
 
 
 /* ============================================================
-   CUSTOM COLLECTION DATE
-============================================================ */
-
-function toggleCustomDatePicker() {
-
-  const picker =
-    document.getElementById(
-      "customDatePicker"
-    );
-
-  if (!picker) return;
-
-  picker.classList.toggle("show");
-
-}
-
-
-/*
-Called whenever a customer clicks one of the
-auto-generated Sunday radio buttons — makes sure
-a previously picked custom date doesn't silently
-stay selected underneath it.
-*/
-function clearCustomCollectionDate() {
-
-  customCollection = null;
-
-  const input =
-    document.getElementById(
-      "customCollectionDate"
-    );
-
-  if (input) input.value = "";
-
-}
-
-
-function selectCustomCollectionDate() {
-
-  const input =
-    document.getElementById(
-      "customCollectionDate"
-    );
-
-  if (!input || !input.value) {
-
-    customCollection = null;
-
-    return;
-
-  }
-
-
-  const date =
-    new Date(
-      input.value + "T12:00:00"
-    );
-
-
-  if (isNaN(date.getTime())) {
-
-    showToast(
-      "Please choose a valid date."
-    );
-
-    customCollection = null;
-
-    return;
-
-  }
-
-
-  /*
-  Collection is only offered on Sundays.
-  */
-  if (date.getDay() !== 0) {
-
-    showToast(
-      "Please choose a Sunday for collection."
-    );
-
-    input.value = "";
-
-    customCollection = null;
-
-    return;
-
-  }
-
-
-  customCollection = {
-
-    id: "CUSTOM",
-
-    date: input.value,
-
-    displayDate:
-      formatFriendlyDate(date),
-
-    time:
-      "To be confirmed",
-
-    address:
-      "Collection address will be provided",
-
-    status: "OPEN"
-
-  };
-
-
-  /*
-  Uncheck the standard radio options so this
-  custom date is unambiguously the active choice.
-  */
-  document
-    .querySelectorAll(
-      'input[name="collection"]'
-    )
-    .forEach(radio => {
-
-      radio.checked = false;
-
-    });
-
-
-  showToast(
-    `Selected ${customCollection.displayDate} for collection.`
-  );
-
-}
-
-
-/* ============================================================
    CHECKOUT
 ============================================================ */
 
@@ -959,7 +818,7 @@ async function createOrder() {
       .trim();
 
 
-  const selectedRadio =
+  const selected =
     document.querySelector(
       'input[name="collection"]:checked'
     );
@@ -987,34 +846,29 @@ async function createOrder() {
   }
 
 
-  /*
-  A collection can come from either a standard
-  radio option OR a custom picked Sunday.
-  */
-  let collection = null;
+  if (!selected) {
 
-  if (selectedRadio) {
+    showToast(
+      "Please select a collection Sunday."
+    );
 
-    collection =
-      collections.find(
-        item =>
-          item.id ===
-          selectedRadio.value
-      );
-
-    customCollection = null;
-
-  } else if (customCollection) {
-
-    collection = customCollection;
+    return;
 
   }
+
+
+  const collection =
+    collections.find(
+      item =>
+        item.id ===
+        selected.value
+    );
 
 
   if (!collection) {
 
     showToast(
-      "Please select a collection Sunday."
+      "Please select a valid collection date."
     );
 
     return;
@@ -1392,8 +1246,6 @@ function showConfirmation() {
 
 
   cart = [];
-
-  customCollection = null;
 
 
   renderCart();
